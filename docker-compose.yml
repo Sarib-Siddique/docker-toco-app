@@ -1,4 +1,3 @@
-version: "3"
 services:
   db:
     image: postgres
@@ -32,3 +31,4 @@ services:
       - DB_NAME=chaiDB
     depends_on:
       - db
+    entrypoint: ["./wait-for-postgres.sh", "db", "npm", "start"]

@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Install PostgreSQL client tools for wait-for-postgres.sh
+RUN apt-get update && apt-get install -y postgresql-client
+
 # Copy the rest of the application code to the working directory
 COPY . .
 
