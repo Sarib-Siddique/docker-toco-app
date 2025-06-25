@@ -1,0 +1,34 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+      - ./todos.sql:/docker-entrypoint-initdb.d/todos.sql
+    ports:
+      - 5432:5432 # make sure you don't have another container running on 5432
+    environment:
+      - POSTGRES_DB=chaiDB
+      - POSTGRES_USER=chaiaurcode
+      - POSTGRES_PASSWORD=chaiaurcode
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  app:
+    build: .
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      - DB_USER=chaiaurcode
+      - DB_PASSWORD=chaiaurcode
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=chaiDB
+    depends_on:
+      - db
